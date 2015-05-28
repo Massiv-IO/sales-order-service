@@ -5,11 +5,13 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import com.newrelic.api.agent.Trace;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 
 /**
  *
@@ -34,7 +36,8 @@ public class OrderService {
         orders.put(order.getItem(), order);
         auditService.orderReceived(order);
 
-        //        RestTemplate restTemplate = new RestTemplate();
-        //        String result = restTemplate.getForObject(SHIPPING, String.class);
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<String> result = restTemplate.postForEntity(SHIPPING, "test", String.class);
+
     }
 }
