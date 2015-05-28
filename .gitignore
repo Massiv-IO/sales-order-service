@@ -1,0 +1,16 @@
+*.iml
+*.iws
+*.ipr
+build/
+target/
+out/
+.clover/
+idea
+.idea/
+.DS_Store
+.project
+.classpath
+.settings/
+.gradle/
+classes/
+
