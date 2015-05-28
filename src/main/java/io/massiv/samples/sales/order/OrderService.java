@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/orders")
 public class OrderService {
     private static final String SHIPPING = "http://localhost:8081/shipping";
-    private Map<String, Order> orders = new ConcurrentHashMap<>();
+    private Map<String, Order> orders = new ConcurrentHashMap<String, Order>();
 
     @Autowired
     protected AuditService auditService;
