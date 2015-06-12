@@ -5,6 +5,9 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import com.newrelic.api.agent.Trace;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,7 +22,7 @@ import org.springframework.web.client.RestTemplate;
 @RestController
 @RequestMapping("/orders")
 public class OrderService {
-    private static final String SHIPPING = "http://localhost:8081/shipping";
+    private static final String SHIPPING = "http://localhost:9000/shipping/";
     private Map<String, Order> orders = new ConcurrentHashMap<String, Order>();
 
     @Autowired
@@ -33,11 +36,15 @@ public class OrderService {
     @Trace
     @RequestMapping(value = "/", method = RequestMethod.POST)
     public void create(@RequestBody Order order) {
+        System.out.println("Order received: " + order.getItem() + " Quantity: " + order.getQuantity());
         orders.put(order.getItem(), order);
         auditService.orderReceived(order);
 
         RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<String> result = restTemplate.postForEntity(SHIPPING, "test", String.class);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
 
+        HttpEntity<String> entity = new HttpEntity<String>("{\"item\":\"1234\",\"quantity\":1}", headers);
+        ResponseEntity<String> result = restTemplate.postForEntity(SHIPPING, entity, String.class);
     }
 }
