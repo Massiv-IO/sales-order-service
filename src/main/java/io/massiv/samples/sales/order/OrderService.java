@@ -43,7 +43,6 @@ public class OrderService {
         return orders.get(id);
     }
 
-/*
     @Trace
     @RequestMapping(value = "/", method = RequestMethod.POST)
     public void create(@RequestBody final Order order) {
@@ -63,5 +62,5 @@ public class OrderService {
                 return session.createTextMessage(order.getItem() + ":" + order.getQuantity());
             }
         });
-    }*/
+    }
 }
