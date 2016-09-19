@@ -44,7 +44,7 @@ public class OrderService {
     }
 
     @Trace
-    @RequestMapping(value = "/", method = RequestMethod.POST)
+    // @RequestMapping(value = "/", method = RequestMethod.POST)
     public void create(@RequestBody final Order order) {
         System.out.println("Order received: " + order.getItem() + " Quantity: " + order.getQuantity());
         orders.put(order.getItem(), order);
